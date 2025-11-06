@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Android Expo App",
+            "request": "launch",
+            "type": "reactnative",
+            "cwd": "${workspaceFolder}",
+            "platform": "android",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "Debug iOS Expo App",
+            "request": "launch",
+            "type": "reactnative",
+            "cwd": "${workspaceFolder}",
+            "platform": "ios",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "Debug Web Expo App",
+            "request": "launch",
+            "type": "reactnative",
+            "platform": "expoweb",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}

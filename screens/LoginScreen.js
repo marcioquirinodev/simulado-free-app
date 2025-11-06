@@ -1,19 +1,37 @@
 // E:\DevArea\simulado-app\screens\LoginScreen.js
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 // Recebe a função de navegação como propriedade
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    // Validação com os dados fixos
-    if (email.toLowerCase() === 'dev.estacio@aluno.br' && password === 'meuapp') {
-      navigation.replace('Home'); // Navega para a Home e remove a tela de Login da pilha
-    } else {
-      Alert.alert('Erro de Login', 'E-mail ou senha incorretos.');
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('https://192.168.100.24:5001/api/Login/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Assumindo que a API retorna um token que você pode querer salvar
+        // Por exemplo, usando AsyncStorage
+        navigation.replace('Home');
+      } else {
+        Alert.alert('Erro de Login', 'E-mail ou senha incorretos.');
+      }
+    } catch (error) {
+      Alert.alert('Erro de Conexão', 'Não foi possível conectar ao servidor.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,8 +53,8 @@ export default function LoginScreen({ navigation }) {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
+        {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Entrar</Text>}
       </TouchableOpacity>
     </View>
   );
