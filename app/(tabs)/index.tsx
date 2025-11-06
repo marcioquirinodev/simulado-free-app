@@ -1,0 +1,51 @@
+import { router } from 'expo-router';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+export default function HomeScreen() {
+  const startQuiz = (subject: string) => {
+    // Navega para a tela de quiz, passando a matéria como parâmetro
+    router.push({ pathname: '/quiz', params: { subject } });
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Escolha o Simulado</Text>
+      <TouchableOpacity style={styles.button} onPress={() => startQuiz('Português')}>
+        <Text style={styles.buttonText}>Português</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => startQuiz('Matemática')}>
+        <Text style={styles.buttonText}>Matemática</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#f0f4f7'
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    color: '#333'
+  },
+  button: {
+    width: '80%',
+    backgroundColor: '#007bff',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+});
